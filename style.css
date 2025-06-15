@@ -1,0 +1,132 @@
+body {
+    background: url('bg.png');
+    background-size: cover;
+    background-position: top center;
+}
+
+.wrapper {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+.container {
+    position: absolute;
+    top: 67%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+}
+
+.odometer {
+    font-size: 200px;
+    font-weight: bold;
+}
+
+.odometer.odometer-animating-up .odometer-ribbon-inner,
+.odometer.odometer-animating-down.odometer-animating .odometer-ribbon-inner {
+    -webkit-transition-duration: 5s !important;
+    -moz-transition-duration: 5s !important;
+    -ms-transition-duration: 5s !important;
+    -o-transition-duration: 5s !important;
+    transition-duration: 5s !important
+}
+
+input,
+label,
+button {
+    font-family: Helvetica, sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.spin-button {
+    display: block;
+    width: 20%;
+    background: #EB2027;
+    margin: 30px auto;
+    padding: 15px;
+    border: 0px solid #FFF;
+    border-radius: 50px;
+    color: #fff;
+    font-size: 30px;
+    outline: none;
+    cursor: pointer;
+}
+
+.spin-button:hover {
+    background: #FFF;
+    color: #EB2027;
+}
+
+.inputs {
+    position: fixed;
+    bottom: 50px;
+    left: 50px;
+    text-align: right;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 30px;
+}
+
+.inputs input {
+    border: none;
+    padding: 10px;
+    width: 100px;
+}
+
+#min {
+    margin-bottom: 30px;
+}
+
+.winners {
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    width: 15%;
+    height: 60%;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 30px;
+    text-align: center;
+}
+
+.winners textarea {
+    width: 100%;
+    height: 90%;
+    margin-top: 10px;
+    border: none;
+    background: none;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: "Helvetica", sans-serif;
+    text-align: center;
+}
+
+.settings-button {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 20px;
+    text-align: right;
+}
+
+.settings-button #open-settings,
+.settings-button #close-settings {
+    font-size: 14px;
+    background: transparent;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+
+.show {
+    display: inline;
+}
+
+.hide {
+    display: none;
+}

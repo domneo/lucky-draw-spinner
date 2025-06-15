@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Lucky Draw Spinner</title>
+  <link rel="stylesheet" href="odometer-theme-train-station.css" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="odometer.js"></script>
+  <script src="scripts.js"></script>
+</head>
+
+<body>
+  <div class="wrapper">
+    <div class="container">
+      <div id="odometer" class="odometer">888</div>
+      <button type="button" id="run" class="spin-button">Spin!</button>
+    </div>
+  </div>
+  <div class="inputs hide" id="inputs">
+    <div class="input-min">
+      <label for="min">Min: </label><input type="number" id="min" value="1" />
+    </div>
+    <div class="input-max">
+      <label for="max">Max: </label><input type="number" id="max" value="550" />
+    </div>
+  </div>
+  <div class="winners hide" id="winners">
+    <label for="winners-field">Winners</label><br>
+    <textarea id="winners-field"></textarea>
+  </div>
+  <div class="settings-button">
+    <button type="button" id="open-settings">Open settings</button>
+    <button type="button" id="close-settings" class="hide">Close settings</button>
+  </div>
+</body>
+
+</html>
