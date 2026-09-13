@@ -186,7 +186,14 @@ window.onload = function () {
   }
 
   // Run the spinner
+  var runButton = document.getElementById("run");
+
   function runSpinner() {
+    // Ignore clicks while the wheel is still settling
+    if (runButton.disabled) {
+      return;
+    }
+
     var rolled = getRandomInt();
     var winners = getWinners();
     var duration = 3000;
@@ -207,6 +214,7 @@ window.onload = function () {
     };
 
     // Execute spinner
+    runButton.disabled = true;
     setTimeout(function () {
       odometer.innerHTML = rolled;
     }, 0);
@@ -217,11 +225,12 @@ window.onload = function () {
       winnersBox.value = oldString + "\n" + rolled;
       saveWinners();
       celebrate();
+      runButton.disabled = false;
     }, duration);
   }
 
   // Run spinner function on button click
-  document.getElementById("run").onclick = runSpinner;
+  runButton.onclick = runSpinner;
 
   // Persist manual edits too
   winnersBox.oninput = saveWinners;

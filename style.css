@@ -120,6 +120,15 @@ button {
     outline: 3px solid var(--on-backdrop);
     outline-offset: 3px;
   }
+
+  /* Locked while the odometer is still rolling */
+  &:disabled {
+    background: var(--button-face);
+    box-shadow: var(--button-shadow);
+    opacity: 0.55;
+    cursor: not-allowed;
+    translate: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
