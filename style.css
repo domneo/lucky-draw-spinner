@@ -1,132 +1,292 @@
+:root {
+  /* ---- Palette --------------------------------------------------------- */
+  --gold-50: #fffefb;
+  --gold-100: #fffdf6;
+  --gold-200: #fffaef;
+  --gold-300: #fdf6e4;
+  --gold-400: #f2e9d3;
+  --gold-500: #f0e3c4;
+  --gold-600: #e6d3a8;
+  --gold-700: #dccaa2;
+
+  --brand: #a80006;
+  --white: #fff;
+  --backdrop: #000;
+  --shadow-rgb: 0 0 0;
+
+  /* ---- Semantic --------------------------------------------------------- */
+  --on-backdrop: var(--white);
+  --panel-bg: var(--gold-200);
+
+  --button-face: linear-gradient(
+    180deg,
+    var(--gold-100) 0%,
+    var(--gold-300) 45%,
+    var(--gold-600) 100%
+  );
+  --button-face-hover: linear-gradient(
+    180deg,
+    var(--gold-50) 0%,
+    var(--gold-200) 60%,
+    var(--gold-500) 100%
+  );
+  --button-rim: var(--gold-100);
+  --button-shadow:
+    0 0.75rem 1.5rem rgb(var(--shadow-rgb) / 0.35),
+    0 0.125rem 0.25rem rgb(var(--shadow-rgb) / 0.2),
+    inset 0 1px 0 var(--button-rim);
+  --button-shadow-hover:
+    0 1rem 2rem rgb(var(--shadow-rgb) / 0.4),
+    0 0.125rem 0.25rem rgb(var(--shadow-rgb) / 0.2),
+    inset 0 1px 0 var(--button-rim);
+  --toggle-text-shadow:
+    0 1px 2px rgb(var(--shadow-rgb) / 0.6),
+    0 0 0.75rem rgb(var(--shadow-rgb) / 0.4);
+  --button-shadow-active:
+    0 0.25rem 0.5rem rgb(var(--shadow-rgb) / 0.35),
+    inset 0 2px 4px rgb(var(--shadow-rgb) / 0.15);
+
+  /* ---- Layout & type ---------------------------------------------------- */
+  --panel-inset: 1.25rem;
+  --panel-max-inline: 16rem;
+  --font-ui: Helvetica, Arial, sans-serif;
+  --spin-duration: 3s;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
-    background: url('bg.png');
-    background-size: cover;
-    background-position: top center;
+  margin: 0;
+  min-height: 100dvh;
+  background: url("bg.png") top center / cover no-repeat var(--backdrop);
+  font-family: var(--font-ui);
 }
 
-.wrapper {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    text-align: center;
-}
-
-.container {
-    position: absolute;
-    top: 67%;
-    left: 0;
-    right: 0;
-    transform: translateY(-50%);
+.stage {
+  position: fixed;
+  inset-block-start: 67%;
+  inset-inline: 0;
+  translate: 0 -50%;
+  text-align: center;
 }
 
 .odometer {
-    font-size: 200px;
-    font-weight: bold;
-}
-
-.odometer.odometer-animating-up .odometer-ribbon-inner,
-.odometer.odometer-animating-down.odometer-animating .odometer-ribbon-inner {
-    -webkit-transition-duration: 5s !important;
-    -moz-transition-duration: 5s !important;
-    -ms-transition-duration: 5s !important;
-    -o-transition-duration: 5s !important;
-    transition-duration: 5s !important
+  --odometer-duration: var(--spin-duration);
+  font-size: clamp(4rem, 20vw, 10rem);
+  font-weight: 700;
 }
 
 input,
 label,
 button {
-    font-family: Helvetica, sans-serif;
-    font-size: 24px;
-    font-weight: bold;
-    text-transform: uppercase;
+  font-family: inherit;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
 .spin-button {
-    display: block;
-    width: 20%;
-    background: #EB2027;
-    margin: 30px auto;
-    padding: 15px;
-    border: 0px solid #FFF;
-    border-radius: 50px;
-    color: #fff;
-    font-size: 30px;
-    outline: none;
-    cursor: pointer;
+  display: block;
+  margin: 1.875rem auto;
+  padding: 0.9375rem 2rem;
+  min-inline-size: 20%;
+  border: none;
+  border-radius: 3.125rem;
+  background: var(--button-face);
+  box-shadow: var(--button-shadow);
+  color: var(--brand);
+  font-size: 1.875rem;
+  cursor: pointer;
+  transition:
+    box-shadow 150ms ease,
+    translate 150ms ease;
+
+  &:hover {
+    background: var(--button-face-hover);
+    box-shadow: var(--button-shadow-hover);
+    translate: 0 -2px;
+  }
+
+  &:active {
+    box-shadow: var(--button-shadow-active);
+    translate: 0 1px;
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--on-backdrop);
+    outline-offset: 3px;
+  }
 }
 
-.spin-button:hover {
-    background: #FFF;
-    color: #EB2027;
+@media (prefers-reduced-motion: reduce) {
+  .spin-button {
+    transition: none;
+
+    &:hover,
+    &:active {
+      translate: none;
+    }
+  }
+}
+
+/* Settings panels */
+.panel-bar {
+  position: fixed;
+  inset: var(--panel-inset);
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  pointer-events: none;
+}
+
+.panel-stack {
+  flex: 1;
+  min-block-size: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.25rem;
+}
+
+.panel-toggles {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+}
+
+.inputs,
+.winners,
+.panel-toggle {
+  pointer-events: auto;
+}
+
+.inputs,
+.winners {
+  inline-size: min(var(--panel-max-inline), 100%);
+  max-block-size: 100%;
+  border-radius: 1rem;
+  padding: 1.875rem;
+  background: var(--panel-bg);
 }
 
 .inputs {
-    position: fixed;
-    bottom: 50px;
-    left: 50px;
-    text-align: right;
-    background: rgba(255, 255, 255, 0.8);
-    padding: 30px;
+  display: grid;
+  gap: 1.875rem;
+  justify-items: end;
+}
+
+.inputs > div {
+  inline-size: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.inputs label {
+  inline-size: 6.25rem;
+  text-align: right;
 }
 
 .inputs input {
-    border: none;
-    padding: 10px;
-    width: 100px;
+  inline-size: 100%;
+  padding: 0.625rem;
+  background: transparent;
+  border: none;
+  border-block-end: 0.25rem solid var(--brand);
 }
 
-#min {
-    margin-bottom: 30px;
+.clear-winners {
+  inline-size: 100%;
+  padding: 0.625rem 1rem;
+  border: 0.125rem solid var(--brand);
+  border-radius: 3.125rem;
+  background: transparent;
+  color: var(--brand);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 150ms ease;
+
+  &:hover {
+    background: var(--brand);
+    color: var(--white);
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--brand);
+    outline-offset: 3px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clear-winners {
+    transition: none;
+  }
 }
 
 .winners {
-    position: fixed;
-    bottom: 50px;
-    right: 50px;
-    width: 15%;
-    height: 60%;
-    background: rgba(255, 255, 255, 0.8);
-    padding: 30px;
-    text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  /* Keep the panel on the right when the settings panel is closed */
+  margin-inline-start: auto;
+  block-size: 60dvh;
+  min-block-size: 0;
+  text-align: center;
 }
 
 .winners textarea {
-    width: 100%;
-    height: 90%;
-    margin-top: 10px;
-    border: none;
-    background: none;
-    font-size: 16px;
-    font-weight: bold;
-    font-family: "Helvetica", sans-serif;
-    text-align: center;
+  flex: 1;
+  min-block-size: 0;
+  border: none;
+  background: none;
+  font: 700 1rem / 1.4 var(--font-ui);
+  text-align: center;
+  resize: none;
 }
 
-.settings-button {
-    position: absolute;
-    bottom: 20px;
-    left: 0;
-    right: 20px;
-    text-align: right;
+.panel-toggle {
+  border: none;
+  background: transparent;
+  color: var(--on-backdrop);
+  font-size: 0.875rem;
+  text-shadow: var(--toggle-text-shadow);
+  cursor: pointer;
+  padding: 0.5rem;
 }
 
-.settings-button #open-settings,
-.settings-button #close-settings {
-    font-size: 14px;
-    background: transparent;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-}
+/* Stacked layout: winners panel on top, settings panel below, buttons last */
+@media (width < 45rem) {
+  .panel-stack {
+    flex-direction: column;
+    align-items: stretch;
+    /* Keep the settings panel at the bottom when winners is closed */
+    justify-content: flex-end;
+  }
 
+  .inputs,
+  .winners {
+    inline-size: 100%;
+  }
 
-.show {
-    display: inline;
+  .winners {
+    order: 1;
+    flex: 1;
+    block-size: auto;
+    min-block-size: 6rem;
+  }
+
+  .inputs {
+    order: 2;
+    flex: 0 0 auto;
+  }
 }
 
 .hide {
-    display: none;
+  display: none;
 }

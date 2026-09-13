@@ -1,0 +1,93 @@
+/*
+ * Odometer "train station" theme — split-flap digits.
+ * Adapted from HubSpot/odometer: vendor prefixes and legacy gradient
+ * syntax removed, duplicate declarations collapsed, colours and timing
+ * exposed as custom properties.
+ */
+
+.odometer:is(.odometer-auto-theme, .odometer-theme-train-station) {
+  /* Champagne tint, matching the spin button (see the palette in style.css).
+     The fallbacks keep this theme usable standalone. */
+  --odometer-digit-face: var(--gold-400, #f2e9d3);
+  --odometer-digit-seam: var(--gold-700, #dccaa2);
+  --odometer-digit-ink: var(--brand, #a80006);
+  --odometer-digit-gap: 0.1em;
+  --odometer-digit-padding: 0.15em;
+  /* Roll speed: override --odometer-duration on the .odometer element
+     itself (see style.css); keep it in sync with the JS `duration`. */
+
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  vertical-align: middle;
+  font-family: Helvetica, Arial, sans-serif;
+
+  .odometer-digit {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    padding-inline: var(--odometer-digit-padding);
+    border-radius: 0.1em;
+    color: var(--odometer-digit-ink);
+    background: linear-gradient(
+      to bottom,
+      var(--odometer-digit-face) 0 35%,
+      var(--odometer-digit-seam) 55%,
+      var(--odometer-digit-face) 55% 100%
+    );
+
+    & + .odometer-digit {
+      margin-inline-start: var(--odometer-digit-gap);
+    }
+  }
+
+  .odometer-digit-spacer {
+    display: inline-block;
+    vertical-align: middle;
+    visibility: hidden;
+  }
+
+  .odometer-digit-inner {
+    position: absolute;
+    inset: 0 0 0 var(--odometer-digit-padding);
+    overflow: hidden;
+    text-align: left;
+  }
+
+  .odometer-ribbon {
+    display: block;
+  }
+
+  .odometer-ribbon-inner {
+    display: block;
+    backface-visibility: hidden;
+  }
+
+  .odometer-value {
+    display: block;
+    transform: translateZ(0); /* promote to its own layer */
+
+    &.odometer-last-value {
+      position: absolute;
+    }
+  }
+
+  /* Rolling up: start in place, slide the ribbon a full digit upwards. */
+  &.odometer-animating-up .odometer-ribbon-inner {
+    transition: translate var(--odometer-duration, 2s);
+  }
+
+  &.odometer-animating-up.odometer-animating .odometer-ribbon-inner {
+    translate: 0 -100%;
+  }
+
+  /* Rolling down: start a digit high, slide back to rest. */
+  &.odometer-animating-down .odometer-ribbon-inner {
+    translate: 0 -100%;
+  }
+
+  &.odometer-animating-down.odometer-animating .odometer-ribbon-inner {
+    transition: translate var(--odometer-duration, 2s);
+    translate: 0;
+  }
+}
